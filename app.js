@@ -30,7 +30,7 @@
     editions: [],
     current: 0,
     query: "",
-    lang: "es"
+    lang: "en"
   };
 
   try {
