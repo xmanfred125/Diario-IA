@@ -34,6 +34,7 @@ body {
   font-size: 16px;
   line-height: 1.6;
 }
+img { display: block; max-width: 100%; }
 
 /* Masthead */
 .masthead {
@@ -136,37 +137,66 @@ body {
 .card summary {
   list-style: none;
   cursor: pointer;
-  padding: 1rem 1.15rem;
+  padding: 0.9rem 1.15rem 0.9rem 0.9rem;
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
 }
 .card summary::-webkit-details-marker { display: none; }
 .card summary:hover { background: var(--surface-muted); }
+.card-thumb {
+  width: 104px;
+  height: 104px;
+  flex: 0 0 104px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: var(--surface-muted);
+}
+.card-text { min-width: 0; flex: 1; }
 .card-title {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.12rem;
-  line-height: 1.4;
-  margin: 0 0 0.35rem;
-  padding-right: 1.6rem;
+  font-size: 1.08rem;
+  line-height: 1.35;
+  margin: 0 0 0.3rem;
+  padding-right: 1.4rem;
   position: relative;
 }
 .card-title::after {
   content: "+";
   position: absolute;
   right: 0;
-  top: -0.15rem;
+  top: -0.2rem;
   color: var(--accent);
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 .card[open] .card-title::after { content: "–"; }
 .card-summary {
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .card-body {
   border-top: 1px solid var(--border);
-  padding: 1rem 1.15rem 1.15rem;
+  padding: 1rem 1.15rem 1.25rem;
   font-size: 0.98rem;
+}
+.card-floated {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  float: left;
+  margin: 0.2rem 1rem 0.6rem 0;
+  background: var(--surface-muted);
+}
+.card-floated.right {
+  float: right;
+  margin: 0.2rem 0 0.6rem 1rem;
 }
 .card-body p { margin: 0 0 0.8rem; }
 .card-body p:last-child { margin-bottom: 0; }
@@ -181,6 +211,11 @@ body {
   border-radius: 999px;
   padding: 0.15rem 0.6rem;
   margin-bottom: 0.5rem;
+}
+.card-edition-note {
+  color: var(--muted);
+  font-size: 0.82rem;
+  margin-top: 0.9rem;
 }
 
 /* Archive */
@@ -228,4 +263,6 @@ body {
   .brand { font-size: 2rem; }
   .toolbar-inner { flex-direction: column; }
   #edition-select { max-width: none; }
+  .card-thumb { width: 84px; height: 84px; flex-basis: 84px; }
+  .card-title { font-size: 1rem; }
 }

@@ -36,21 +36,57 @@
   }
 
   function storyCard(story, dateLabel) {
+    var images = story.images || [];
     var details = document.createElement("details");
     details.className = "card";
+
+    // --- Collapsed header: thumbnail + title/summary side by side ---
     var summary = document.createElement("summary");
+    if (images[0]) {
+      var thumb = document.createElement("img");
+      thumb.className = "card-thumb";
+      thumb.src = images[0];
+      thumb.alt = "";
+      thumb.loading = "lazy";
+      summary.appendChild(thumb);
+    }
+    var text = document.createElement("div");
+    text.className = "card-text";
     var h3 = document.createElement("h3");
     h3.className = "card-title";
     h3.textContent = story.title;
     var p = document.createElement("p");
     p.className = "card-summary";
     p.textContent = story.summary;
-    summary.appendChild(h3);
-    summary.appendChild(p);
+    text.appendChild(h3);
+    text.appendChild(p);
+    summary.appendChild(text);
+
+    // --- Expanded body: floated images + prose (newspaper style) ---
     var body = document.createElement("div");
     body.className = "card-body";
-    body.innerHTML = renderBody(story.body) +
-      '<p style="color:var(--muted);font-size:0.82rem;margin-top:0.9rem">Edición del ' + esc(dateLabel) + "</p>";
+    var html = "";
+    if (images[0]) {
+      html += '<img class="card-floated" src="' + esc(images[0]) + '" alt="" loading="lazy">';
+    }
+    var prose = renderBody(story.body);
+    if (images[1]) {
+      // Second image after the first paragraph.
+      var firstClose = prose.indexOf("</p>");
+      if (firstClose !== -1) {
+        prose = prose.slice(0, firstClose + 4) +
+          '<img class="card-floated right" src="' + esc(images[1]) + '" alt="" loading="lazy">' +
+          prose.slice(firstClose + 4);
+      } else {
+        prose += '<img class="card-floated right" src="' + esc(images[1]) + '" alt="" loading="lazy">';
+      }
+    }
+    html += prose;
+    html += '<p class="card-edition-note">Edición del ' + esc(dateLabel) + "</p>";
+    // Clear floats
+    html += '<div style="clear:both"></div>';
+    body.innerHTML = html;
+
     details.appendChild(summary);
     details.appendChild(body);
     return details;
@@ -64,6 +100,20 @@
     });
   }
 
+  function ensureThumbs(ed, done) {
+    if (!ed || ed._thumbsLoaded) { done(); return; }
+    ed._thumbsLoaded = true;
+    fetch("editions/" + ed.date + "-thumbs.json", { cache: "no-store" })
+      .then(function (r) { if (!r.ok) throw new Error("thumbs"); return r.json(); })
+      .then(function (tj) {
+        (tj.images || []).forEach(function (imgs, i) {
+          if (ed.stories[i]) ed.stories[i].images = imgs;
+        });
+        done();
+      })
+      .catch(function () { done(); });
+  }
+
   function render() {
     var ed = state.editions[state.current];
     var head = $("edition-head");
@@ -75,6 +125,12 @@
       return;
     }
 
+    ensureThumbs(ed, function () { renderStories(ed); });
+  }
+
+  function renderStories(ed) {
+    var head = $("edition-head");
+    var list = $("stories");
     var dateLabel = formatDate(ed.date);
     head.innerHTML = "<h2>Edición del " + esc(dateLabel) + "</h2>" +
       "<p>" + ed.stories.length + " noticias</p>";
