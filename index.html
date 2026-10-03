@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diario IA — Noticias de inteligencia artificial</title>
+<meta name="description" content="Diario digital de noticias de inteligencia artificial: nuevos modelos, anuncios y avances, resumidos cada mañana.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="masthead">
+  <div class="masthead-inner">
+    <h1 class="brand">Diario IA</h1>
+    <p class="tagline">Las noticias de inteligencia artificial, resumidas cada mañana</p>
+    <div class="masthead-meta">
+      <span id="today-date"></span>
+      <span class="dot">·</span>
+      <span>Edición diaria</span>
+    </div>
+  </div>
+</header>
+
+<nav class="toolbar">
+  <div class="toolbar-inner">
+    <input type="search" id="search" placeholder="Buscar noticias…" aria-label="Buscar noticias" autocomplete="off">
+    <select id="edition-select" aria-label="Elegir edición"></select>
+  </div>
+</nav>
+
+<main class="content">
+  <section id="edition-head" class="edition-head"></section>
+  <section id="stories" class="stories" aria-live="polite"></section>
+  <section id="archive" class="archive">
+    <h2>Archivo de ediciones</h2>
+    <ul id="archive-list"></ul>
+  </section>
+</main>
+
+<footer class="footer">
+  <p>Diario IA — Resúmenes generados diariamente. Contenido informativo, sin enlaces externos.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
