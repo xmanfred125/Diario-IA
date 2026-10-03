@@ -38,6 +38,12 @@
     if (saved === "en" || saved === "es") state.lang = saved;
   } catch (e) {}
 
+  // URL param ?lang=es|en overrides saved preference (for shared links).
+  try {
+    var m = /[?&]lang=(es|en)\b/.exec(location.search);
+    if (m) state.lang = m[1];
+  } catch (e) {}
+
   function $(id) { return document.getElementById(id); }
   function S() { return STRINGS[state.lang]; }
 
