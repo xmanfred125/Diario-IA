@@ -1,18 +1,58 @@
 (function () {
   "use strict";
 
-  var state = {
-    editions: [],        // [{date, stories:[...]}] newest first
-    current: 0,          // index into editions
-    query: ""
+  var STRINGS = {
+    es: {
+      search_ph: "Buscar noticias…",
+      daily_edition: "Edición diaria",
+      archive: "Archivo de ediciones",
+      footer_tag: "Noticias diarias de IA, en inglés y español.",
+      edition_of: "Edición del",
+      news_count: "noticias",
+      no_results: "Sin resultados para tu búsqueda en esta edición.",
+      no_editions: "Aún no hay ediciones publicadas.",
+      load_error: "No se pudo cargar la edición. Inténtalo de nuevo más tarde."
+    },
+    en: {
+      search_ph: "Search news…",
+      daily_edition: "Daily edition",
+      archive: "Edition archive",
+      footer_tag: "Daily AI news, in English and Spanish.",
+      edition_of: "Edition of",
+      news_count: "stories",
+      no_results: "No results for your search in this edition.",
+      no_editions: "No editions published yet.",
+      load_error: "Could not load the edition. Please try again later."
+    }
   };
 
+  var state = {
+    editions: [],
+    current: 0,
+    query: "",
+    lang: "es"
+  };
+
+  try {
+    var saved = localStorage.getItem("vexa-lang");
+    if (saved === "en" || saved === "es") state.lang = saved;
+  } catch (e) {}
+
   function $(id) { return document.getElementById(id); }
+  function S() { return STRINGS[state.lang]; }
+
+  // Get localized text from {es, en} object or plain string.
+  function t(obj) {
+    if (obj == null) return "";
+    if (typeof obj === "string") return obj;
+    return obj[state.lang] || obj.es || obj.en || "";
+  }
 
   function formatDate(iso) {
     try {
       var d = new Date(iso + "T12:00:00");
-      return d.toLocaleDateString("es-ES", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+      var locale = state.lang === "en" ? "en-US" : "es-ES";
+      return d.toLocaleDateString(locale, { weekday: "long", year: "numeric", month: "long", day: "numeric" });
     } catch (e) { return iso; }
   }
 
@@ -22,56 +62,54 @@
       .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   }
 
-  // Turn plain-text body into paragraphs. Keeps "Qué pasó / Por qué importa" markers as kickers.
   function renderBody(body) {
     var paras = String(body || "").split(/\n{2,}|\r\n\r\n/).map(function (p) { return p.trim(); }).filter(Boolean);
     if (!paras.length) paras = [String(body || "")];
-    return paras.map(function (p) {
-      var m = p.match(/^(Qué pasó|Por qué importa|Detalles clave|Contexto)\s*[:\-–]\s*(.*)$/i);
-      if (m) {
-        return '<p><span class="card-kicker">' + esc(m[1]) + '</span><br>' + esc(m[2]) + "</p>";
-      }
-      return "<p>" + esc(p).replace(/\n/g, "<br>") + "</p>";
-    }).join("");
+    return paras.map(function (p) { return "<p>" + esc(p).replace(/\n/g, "<br>") + "</p>"; }).join("");
   }
 
-  function storyCard(story, dateLabel) {
+  function storyCard(story, dateLabel, index) {
     var images = story.images || [];
-    var details = document.createElement("details");
-    details.className = "card";
+    var card = document.createElement("article");
+    card.className = "story-card";
+    card.dataset.index = String(index);
 
-    // --- Collapsed header: thumbnail + title/summary side by side ---
-    var summary = document.createElement("summary");
+    var top = document.createElement("div");
+    top.className = "card-top";
     if (images[0]) {
       var thumb = document.createElement("img");
       thumb.className = "card-thumb";
       thumb.src = images[0];
       thumb.alt = "";
       thumb.loading = "lazy";
-      summary.appendChild(thumb);
+      top.appendChild(thumb);
     }
-    var text = document.createElement("div");
-    text.className = "card-text";
+    var head = document.createElement("div");
+    head.className = "card-head";
     var h3 = document.createElement("h3");
-    h3.className = "card-title";
-    h3.textContent = story.title;
+    h3.textContent = t(story.title);
     var p = document.createElement("p");
-    p.className = "card-summary";
-    p.textContent = story.summary;
-    text.appendChild(h3);
-    text.appendChild(p);
-    summary.appendChild(text);
+    p.className = "summary";
+    p.textContent = t(story.summary);
+    head.appendChild(h3);
+    head.appendChild(p);
+    top.appendChild(head);
+    card.appendChild(top);
 
-    // --- Expanded body: floated images + prose (newspaper style) ---
+    var meta = document.createElement("div");
+    meta.className = "card-meta";
+    meta.textContent = dateLabel;
+    card.appendChild(meta);
+
     var body = document.createElement("div");
-    body.className = "card-body";
+    body.className = "article-body";
+    body.style.display = "none";
     var html = "";
     if (images[0]) {
       html += '<img class="card-floated" src="' + esc(images[0]) + '" alt="" loading="lazy">';
     }
-    var prose = renderBody(story.body);
+    var prose = renderBody(t(story.body));
     if (images[1]) {
-      // Second image after the first paragraph.
       var firstClose = prose.indexOf("</p>");
       if (firstClose !== -1) {
         prose = prose.slice(0, firstClose + 4) +
@@ -82,35 +120,50 @@
       }
     }
     html += prose;
-    html += '<p class="card-edition-note">Edición del ' + esc(dateLabel) + "</p>";
-    // Clear floats
-    html += '<div style="clear:both"></div>';
     body.innerHTML = html;
+    card.appendChild(body);
 
-    details.appendChild(summary);
-    details.appendChild(body);
-    return details;
+    top.addEventListener("click", function () {
+      var expanded = card.classList.toggle("expanded");
+      body.style.display = expanded ? "block" : "none";
+    });
+
+    return card;
   }
 
   function filteredStories(ed) {
     var q = state.query.trim().toLowerCase();
     if (!q) return ed.stories;
     return ed.stories.filter(function (s) {
-      return (s.title + " " + s.summary + " " + s.body).toLowerCase().indexOf(q) !== -1;
+      var hay = (t(s.title) + " " + t(s.summary) + " " + t(s.body)).toLowerCase();
+      return hay.indexOf(q) !== -1;
     });
   }
 
+  function applyI18n() {
+    var s = S();
+    document.documentElement.lang = state.lang;
+    var ph = document.querySelector("[data-i18n-ph]");
+    if (ph) ph.placeholder = s.search_ph;
+    document.querySelectorAll("[data-i18n]").forEach(function (el) {
+      var k = el.getAttribute("data-i18n");
+      if (s[k]) el.textContent = s[k];
+    });
+    $("lang-es").classList.toggle("active", state.lang === "es");
+    $("lang-en").classList.toggle("active", state.lang === "en");
+  }
+
   function render() {
+    applyI18n();
     var ed = state.editions[state.current];
     var head = $("edition-head");
     var list = $("stories");
 
     if (!ed) {
       head.innerHTML = "";
-      list.innerHTML = '<div class="empty">Aún no hay ediciones publicadas.</div>';
+      list.innerHTML = '<div class="empty">' + esc(S().no_editions) + "</div>";
       return;
     }
-
     renderStories(ed);
   }
 
@@ -118,16 +171,16 @@
     var head = $("edition-head");
     var list = $("stories");
     var dateLabel = formatDate(ed.date);
-    head.innerHTML = "<h2>Edición del " + esc(dateLabel) + "</h2>" +
-      "<p>" + ed.stories.length + " noticias</p>";
+    head.innerHTML = "<h2>" + esc(S().edition_of) + " " + esc(dateLabel) + "</h2>" +
+      "<p>" + ed.stories.length + " " + esc(S().news_count) + "</p>";
 
     var stories = filteredStories(ed);
     list.innerHTML = "";
     if (!stories.length) {
-      list.innerHTML = '<div class="empty">Sin resultados para tu búsqueda en esta edición.</div>';
+      list.innerHTML = '<div class="empty">' + esc(S().no_results) + "</div>";
       return;
     }
-    stories.forEach(function (s) { list.appendChild(storyCard(s, dateLabel)); });
+    stories.forEach(function (s, i) { list.appendChild(storyCard(s, dateLabel, i)); });
   }
 
   function renderArchive() {
@@ -136,8 +189,7 @@
     state.editions.forEach(function (ed, i) {
       var li = document.createElement("li");
       var btn = document.createElement("button");
-      btn.innerHTML = "<span>" + esc(formatDate(ed.date)) + '</span><span class="count">' +
-        ed.stories.length + " noticias</span>";
+      btn.textContent = formatDate(ed.date) + " (" + ed.stories.length + ")";
       btn.addEventListener("click", function () {
         state.current = i;
         $("edition-select").value = String(i);
@@ -159,6 +211,33 @@
     sel.value = String(state.current);
   }
 
+  function loadEditionImages(ed) {
+    var base = "editions/" + ed.date;
+    return Promise.all([
+      fetch(base + "-img-hero.json", { cache: "no-store" }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
+      fetch(base + "-img-inline.json", { cache: "no-store" }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
+    ]).then(function (res) {
+      var hero = (res[0] && res[0].images) || [];
+      var inline = (res[1] && res[1].images) || [];
+      ed.stories.forEach(function (s, i) {
+        var imgs = [];
+        if (hero[i]) imgs.push(hero[i]);
+        if (inline[i]) imgs.push(inline[i]);
+        if (imgs.length) s.images = imgs;
+      });
+      return ed;
+    });
+  }
+
+  function setLang(lang) {
+    if (lang !== "es" && lang !== "en") return;
+    state.lang = lang;
+    try { localStorage.setItem("vexa-lang", lang); } catch (e) {}
+    render();
+    renderArchive();
+    $("today-date").textContent = formatDate(new Date().toISOString().slice(0, 10));
+  }
+
   function load() {
     $("today-date").textContent = formatDate(new Date().toISOString().slice(0, 10));
 
@@ -169,6 +248,7 @@
         return Promise.all(dates.map(function (d) {
           return fetch("editions/" + d + ".json", { cache: "no-store" })
             .then(function (r) { if (!r.ok) throw new Error(d); return r.json(); })
+            .then(loadEditionImages)
             .catch(function () { return { date: d, stories: [] }; });
         }));
       })
@@ -179,7 +259,7 @@
         render();
       })
       .catch(function () {
-        $("stories").innerHTML = '<div class="empty">No se pudo cargar la edición. Inténtalo de nuevo más tarde.</div>';
+        $("stories").innerHTML = '<div class="empty">' + esc(S().load_error) + "</div>";
       });
 
     $("search").addEventListener("input", function (e) {
@@ -191,6 +271,8 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
       render();
     });
+    $("lang-es").addEventListener("click", function () { setLang("es"); });
+    $("lang-en").addEventListener("click", function () { setLang("en"); });
   }
 
   document.addEventListener("DOMContentLoaded", load);
