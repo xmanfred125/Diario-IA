@@ -100,20 +100,6 @@
     });
   }
 
-  function ensureThumbs(ed, done) {
-    if (!ed || ed._thumbsLoaded) { done(); return; }
-    ed._thumbsLoaded = true;
-    fetch("editions/" + ed.date + "-thumbs.json", { cache: "no-store" })
-      .then(function (r) { if (!r.ok) throw new Error("thumbs"); return r.json(); })
-      .then(function (tj) {
-        (tj.images || []).forEach(function (imgs, i) {
-          if (ed.stories[i]) ed.stories[i].images = imgs;
-        });
-        done();
-      })
-      .catch(function () { done(); });
-  }
-
   function render() {
     var ed = state.editions[state.current];
     var head = $("edition-head");
@@ -125,7 +111,7 @@
       return;
     }
 
-    ensureThumbs(ed, function () { renderStories(ed); });
+    renderStories(ed);
   }
 
   function renderStories(ed) {
