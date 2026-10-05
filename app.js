@@ -8,6 +8,7 @@
       archive: "Archivo de ediciones",
       footer_tag: "Noticias diarias de IA, en inglés y español.",
       edition_of: "Edición del",
+      todays_news: "Las noticias de hoy",
       news_count: "noticias",
       no_results: "Sin resultados para tu búsqueda en esta edición.",
       no_editions: "Aún no hay ediciones publicadas.",
@@ -19,6 +20,7 @@
       archive: "Edition archive",
       footer_tag: "Daily AI news, in English and Spanish.",
       edition_of: "Edition of",
+      todays_news: "Today's news",
       news_count: "stories",
       no_results: "No results for your search in this edition.",
       no_editions: "No editions published yet.",
@@ -59,6 +61,15 @@
       var d = new Date(iso + "T12:00:00");
       var locale = state.lang === "en" ? "en-US" : "es-ES";
       return d.toLocaleDateString(locale, { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+    } catch (e) { return iso; }
+  }
+
+  // Short date without weekday, e.g. "4 de octubre de 2026" / "October 4, 2026".
+  function formatDateShort(iso) {
+    try {
+      var d = new Date(iso + "T12:00:00");
+      var locale = state.lang === "en" ? "en-US" : "es-ES";
+      return d.toLocaleDateString(locale, { year: "numeric", month: "long", day: "numeric" });
     } catch (e) { return iso; }
   }
 
@@ -176,8 +187,12 @@
   function renderStories(ed) {
     var head = $("edition-head");
     var list = $("stories");
-    var dateLabel = formatDate(ed.date);
-    head.innerHTML = "<h2>" + esc(S().edition_of) + " " + esc(dateLabel) + "</h2>" +
+    // Latest edition is presented as today's news (morning-newscast convention);
+    // older editions show their coverage date without the weekday.
+    var title = state.current === 0
+      ? esc(S().todays_news)
+      : esc(S().edition_of) + " " + esc(formatDateShort(ed.date));
+    head.innerHTML = "<h2>" + title + "</h2>" +
       "<p>" + ed.stories.length + " " + esc(S().news_count) + "</p>";
 
     var stories = filteredStories(ed);
@@ -186,7 +201,7 @@
       list.innerHTML = '<div class="empty">' + esc(S().no_results) + "</div>";
       return;
     }
-    stories.forEach(function (s, i) { list.appendChild(storyCard(s, dateLabel, i)); });
+    stories.forEach(function (s, i) { list.appendChild(storyCard(s, formatDateShort(s.date || ed.date), i)); });
   }
 
   function renderArchive() {
@@ -195,7 +210,7 @@
     state.editions.forEach(function (ed, i) {
       var li = document.createElement("li");
       var btn = document.createElement("button");
-      btn.textContent = formatDate(ed.date) + " (" + ed.stories.length + ")";
+      btn.textContent = formatDateShort(ed.date) + " (" + ed.stories.length + ")";
       btn.addEventListener("click", function () {
         state.current = i;
         $("edition-select").value = String(i);
@@ -211,7 +226,7 @@
     state.editions.forEach(function (ed, i) {
       var opt = document.createElement("option");
       opt.value = String(i);
-      opt.textContent = formatDate(ed.date);
+      opt.textContent = formatDateShort(ed.date);
       sel.appendChild(opt);
     });
     sel.value = String(state.current);
