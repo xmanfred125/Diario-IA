@@ -211,3 +211,6 @@ body {
   .toolbar-inner { flex-wrap: wrap; }
   .toolbar input[type="search"] { flex-basis: 100%; }
 }
+.footer-links{margin-top:8px;font-size:14px}
+.footer-links a{color:#8a8fa3;text-decoration:none;margin:0 6px}
+.footer-links a:hover{color:#e8eaf0;text-decoration:underline}
