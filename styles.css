@@ -89,6 +89,19 @@ body {
   font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
 }
 .lang-btn.active { background: var(--accent); color: #fff; }
+.race-link {
+  padding: 9px 16px;
+  background: #2a2a2a;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+.race-link:hover { background: var(--accent); }
 
 /* Content */
 .content { max-width: var(--maxw); margin: 0 auto; padding: 24px 20px 40px; }
@@ -211,6 +224,3 @@ body {
   .toolbar-inner { flex-wrap: wrap; }
   .toolbar input[type="search"] { flex-basis: 100%; }
 }
-.footer-links{margin-top:8px;font-size:14px}
-.footer-links a{color:#8a8fa3;text-decoration:none;margin:0 6px}
-.footer-links a:hover{color:#e8eaf0;text-decoration:underline}

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vexa Times — La Carrera / The AI Race</title>
+<meta name="description" content="Vexa Times — La Carrera: verified rankings of the AI race. Quality, coding, cost, speed, capacity and reliability. / Rankings verificados de la carrera de la IA.">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .race-intro { margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+  .race-intro h2 { font-size: 28px; font-weight: 700; }
+  .race-intro p { color: var(--muted); font-size: 15px; font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; }
+  .race-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; margin-bottom: 40px; }
+  .race-table-card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .race-table-card h3 { padding: 16px 18px 8px; font-size: 20px; }
+  .race-table-card .src { padding: 0 18px 10px; font-size: 12px; color: var(--muted); font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.8px; }
+  table.race { width: 100%; border-collapse: collapse; font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; font-size: 14.5px; }
+  table.race th, table.race td { padding: 9px 14px; text-align: left; border-top: 1px solid var(--line); }
+  table.race th { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.8px; border-top: none; }
+  table.race td.rank { width: 44px; font-weight: 700; color: var(--accent); }
+  table.race td.score { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  table.race th.score { text-align: right; }
+  .soon-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 40px; }
+  .soon-card { background: var(--card); border: 1px dashed var(--line); border-radius: 8px; padding: 18px; }
+  .soon-card h3 { font-size: 18px; margin-bottom: 6px; }
+  .soon-card p { font-size: 14px; color: #444; font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; margin-bottom: 10px; }
+  .soon-badge { display: inline-block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 4px 10px; font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; }
+  .method { border-top: 1px solid var(--line); padding-top: 24px; margin-bottom: 32px; }
+  .method h2 { font-size: 22px; margin-bottom: 12px; }
+  .method p { font-size: 16px; margin-bottom: 1em; max-width: 780px; }
+  .method a, .attr a { color: var(--accent); }
+  .attr { font-size: 13px; color: var(--muted); font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; }
+  @media (max-width: 640px) { .race-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header class="masthead">
+  <div class="masthead-inner">
+    <img src="logo.png" alt="Vexa Times" class="brand-logo">
+    <div class="masthead-meta">
+      <span id="today-date"></span>
+      <span class="dot">·</span>
+      <span data-i18n="race_title">La Carrera</span>
+    </div>
+  </div>
+</header>
+
+<nav class="toolbar">
+  <div class="toolbar-inner">
+    <a href="index.html" class="race-link" data-i18n="back_home">← Inicio</a>
+    <div class="lang-toggle" role="group" aria-label="Language / Idioma" style="margin-left:auto">
+      <button id="lang-es" class="lang-btn" type="button">ES</button>
+      <button id="lang-en" class="lang-btn active" type="button">EN</button>
+    </div>
+  </div>
+</nav>
+
+<main class="content">
+  <section class="race-intro">
+    <h2 data-i18n="race_title">La Carrera</h2>
+    <p><span data-i18n="race_sub">Quién va ganando la carrera de la inteligencia artificial, con datos verificados de fuentes independientes.</span><br>
+    <span data-i18n="updated_on">Actualizado el</span> <span id="race-updated">…</span></p>
+  </section>
+
+  <section class="race-grid">
+    <div class="race-table-card">
+      <h3 data-i18n="dim_quality">Calidad general</h3>
+      <div class="src">LMArena · Elo</div>
+      <table class="race" id="table-full">
+        <thead><tr>
+          <th data-i18n="col_rank">#</th>
+          <th data-i18n="col_model">Modelo</th>
+          <th class="score">Elo</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="race-table-card">
+      <h3 data-i18n="dim_coding">Programación</h3>
+      <div class="src">LMArena · Elo</div>
+      <table class="race" id="table-coding">
+        <thead><tr>
+          <th data-i18n="col_rank">#</th>
+          <th data-i18n="col_model">Modelo</th>
+          <th class="score">Elo</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="soon-grid">
+    <div class="soon-card">
+      <h3 data-i18n="dim_cost">Costo</h3>
+      <p data-i18n="cost_desc">Precio por tarea completada, no solo por token: lo que realmente cuesta usar cada modelo.</p>
+      <span class="soon-badge" data-i18n="coming_soon">Próximamente</span>
+    </div>
+    <div class="soon-card">
+      <h3 data-i18n="dim_speed">Velocidad</h3>
+      <p data-i18n="speed_desc">Tokens por segundo y latencia real de cada modelo en producción.</p>
+      <span class="soon-badge" data-i18n="coming_soon">Próximamente</span>
+    </div>
+    <div class="soon-card">
+      <h3 data-i18n="dim_capacity">Capacidad</h3>
+      <p data-i18n="capacity_desc">Ventana de contexto y límite de salida por respuesta: cuánta información maneja cada modelo.</p>
+      <span class="soon-badge" data-i18n="coming_soon">Próximamente</span>
+    </div>
+    <div class="soon-card">
+      <h3 data-i18n="dim_reliability">Confiabilidad</h3>
+      <p data-i18n="reliability_desc">Tasa de alucinaciones: con qué frecuencia cada modelo inventa en vez de decir "no lo sé".</p>
+      <span class="soon-badge" data-i18n="coming_soon">Próximamente</span>
+    </div>
+  </section>
+
+  <section class="method">
+    <h2 data-i18n="methodology_title">Metodología</h2>
+    <p data-i18n="methodology_p1">Los rankings de La Carrera se construyen cruzando datos de fuentes independientes. Ningún número publicado por un fabricante se publica solo: siempre va junto al dato independiente, con su fuente y su fecha.</p>
+    <p data-i18n="methodology_p2">Los puntajes Elo provienen de LMArena, donde los modelos compiten a ciegas y votan personas reales. Los rankings se actualizan semanalmente; la fecha de actualización aparece arriba.</p>
+    <p class="attr"><span data-i18n="data_source">Datos</span>: <a href="https://lmarena.ai" target="_blank" rel="noopener">LMArena</a></p>
+  </section>
+</main>
+
+<footer class="footer">
+  <p><strong>Vexa Times</strong> — <span data-i18n="footer_tag">Noticias diarias de IA, en inglés y español.</span></p>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var STRINGS = {
+    es: {
+      race_title: "La Carrera",
+      race_sub: "Quién va ganando la carrera de la inteligencia artificial, con datos verificados de fuentes independientes.",
+      updated_on: "Actualizado el",
+      back_home: "← Inicio",
+      dim_quality: "Calidad general",
+      dim_coding: "Programación",
+      dim_cost: "Costo",
+      dim_speed: "Velocidad",
+      dim_capacity: "Capacidad",
+      dim_reliability: "Confiabilidad",
+      col_rank: "#",
+      col_model: "Modelo",
+      coming_soon: "Próximamente",
+      cost_desc: "Precio por tarea completada, no solo por token: lo que realmente cuesta usar cada modelo.",
+      speed_desc: "Tokens por segundo y latencia real de cada modelo en producción.",
+      capacity_desc: "Ventana de contexto y límite de salida por respuesta: cuánta información maneja cada modelo.",
+      reliability_desc: "Tasa de alucinaciones: con qué frecuencia cada modelo inventa en vez de decir «no lo sé».",
+      methodology_title: "Metodología",
+      methodology_p1: "Los rankings de La Carrera se construyen cruzando datos de fuentes independientes. Ningún número publicado por un fabricante se publica solo: siempre va junto al dato independiente, con su fuente y su fecha.",
+      methodology_p2: "Los puntajes Elo provienen de LMArena, donde los modelos compiten a ciegas y votan personas reales. Los rankings se actualizan semanalmente; la fecha de actualización aparece arriba.",
+      data_source: "Datos",
+      footer_tag: "Noticias diarias de IA, en inglés y español.",
+      load_error: "No se pudieron cargar los datos. Inténtalo de nuevo más tarde."
+    },
+    en: {
+      race_title: "The AI Race",
+      race_sub: "Who's leading the artificial intelligence race, with verified data from independent sources.",
+      updated_on: "Updated",
+      back_home: "← Home",
+      dim_quality: "Overall quality",
+      dim_coding: "Coding",
+      dim_cost: "Cost",
+      dim_speed: "Speed",
+      dim_capacity: "Capacity",
+      dim_reliability: "Reliability",
+      col_rank: "#",
+      col_model: "Model",
+      coming_soon: "Coming soon",
+      cost_desc: "Price per completed task, not just per token: what it really costs to use each model.",
+      speed_desc: "Tokens per second and real-world latency of each model in production.",
+      capacity_desc: "Context window and per-response output limit: how much information each model handles.",
+      reliability_desc: "Hallucination rate: how often each model makes things up instead of saying “I don't know”.",
+      methodology_title: "Methodology",
+      methodology_p1: "The AI Race rankings are built by cross-checking data from independent sources. No vendor-published number stands alone: it always appears next to the independent figure, with its source and date.",
+      methodology_p2: "Elo scores come from LMArena, where models compete blind and real people vote. Rankings update weekly; the update date is shown above.",
+      data_source: "Data",
+      footer_tag: "Daily AI news, in English and Spanish.",
+      load_error: "Could not load the data. Please try again later."
+    }
+  };
+
+  var state = { lang: "en" };
+  try {
+    var saved = localStorage.getItem("vexa-lang");
+    if (saved === "en" || saved === "es") state.lang = saved;
+  } catch (e) {}
+  try {
+    var m = /[?&]lang=(es|en)\b/.exec(location.search);
+    if (m) state.lang = m[1];
+  } catch (e) {}
+
+  function $(id) { return document.getElementById(id); }
+  function S() { return STRINGS[state.lang]; }
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+  function formatDateShort(iso) {
+    try {
+      var d = new Date(iso + "T12:00:00");
+      var locale = state.lang === "en" ? "en-US" : "es-ES";
+      return d.toLocaleDateString(locale, { year: "numeric", month: "long", day: "numeric" });
+    } catch (e) { return iso; }
+  }
+  function formatDate(iso) {
+    try {
+      var d = new Date(iso + "T12:00:00");
+      var locale = state.lang === "en" ? "en-US" : "es-ES";
+      return d.toLocaleDateString(locale, { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+    } catch (e) { return iso; }
+  }
+
+  function applyI18n() {
+    var s = S();
+    document.documentElement.lang = state.lang;
+    document.querySelectorAll("[data-i18n]").forEach(function (el) {
+      var k = el.getAttribute("data-i18n");
+      if (s[k]) el.textContent = s[k];
+    });
+    $("lang-es").classList.toggle("active", state.lang === "es");
+    $("lang-en").classList.toggle("active", state.lang === "en");
+    document.title = "Vexa Times — " + (state.lang === "es" ? "La Carrera" : "The AI Race");
+  }
+
+  function renderTable(tbodyId, rows) {
+    var tbody = document.querySelector("#" + tbodyId + " tbody");
+    tbody.innerHTML = "";
+    rows.slice(0, 10).forEach(function (r, i) {
+      var tr = document.createElement("tr");
+      var tdRank = document.createElement("td");
+      tdRank.className = "rank";
+      tdRank.textContent = String(i + 1);
+      var tdModel = document.createElement("td");
+      tdModel.textContent = r.model;
+      var tdScore = document.createElement("td");
+      tdScore.className = "score";
+      tdScore.textContent = r.rating;
+      tr.appendChild(tdRank);
+      tr.appendChild(tdModel);
+      tr.appendChild(tdScore);
+      tbody.appendChild(tr);
+    });
+  }
+
+  function setLang(lang) {
+    if (lang !== "es" && lang !== "en") return;
+    state.lang = lang;
+    try { localStorage.setItem("vexa-lang", lang); } catch (e) {}
+    applyI18n();
+    $("today-date").textContent = formatDate(new Date().toISOString().slice(0, 10));
+    if (window.__raceUpdated) $("race-updated").textContent = formatDateShort(window.__raceUpdated);
+  }
+
+  function load() {
+    $("today-date").textContent = formatDate(new Date().toISOString().slice(0, 10));
+    fetch("race-data.json", { cache: "no-store" })
+      .then(function (r) { if (!r.ok) throw new Error("race-data"); return r.json(); })
+      .then(function (d) {
+        window.__raceUpdated = d.updated;
+        $("race-updated").textContent = formatDateShort(d.updated);
+        renderTable("table-full", d.categories.full || []);
+        renderTable("table-coding", d.categories.coding || []);
+      })
+      .catch(function () {
+        $("race-updated").textContent = esc(S().load_error);
+      });
+    applyI18n();
+    $("lang-es").addEventListener("click", function () { setLang("es"); });
+    $("lang-en").addEventListener("click", function () { setLang("en"); });
+  }
+
+  document.addEventListener("DOMContentLoaded", load);
+})();
+</script>
+</body>
+</html>

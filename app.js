@@ -12,7 +12,8 @@
       news_count: "noticias",
       no_results: "Sin resultados para tu búsqueda en esta edición.",
       no_editions: "Aún no hay ediciones publicadas.",
-      load_error: "No se pudo cargar la edición. Inténtalo de nuevo más tarde."
+      load_error: "No se pudo cargar la edición. Inténtalo de nuevo más tarde.",
+      race_link: "La Carrera"
     },
     en: {
       search_ph: "Search news…",
@@ -24,7 +25,8 @@
       news_count: "stories",
       no_results: "No results for your search in this edition.",
       no_editions: "No editions published yet.",
-      load_error: "Could not load the edition. Please try again later."
+      load_error: "Could not load the edition. Please try again later.",
+      race_link: "The AI Race"
     }
   };
 
