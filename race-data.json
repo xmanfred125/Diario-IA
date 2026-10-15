@@ -363,12 +363,6 @@
     ],
     "aa_cost": [
       {
-        "model": "Muse Wonder Full (Max)",
-        "creator": "Meta",
-        "score": 0,
-        "quality": 55.8
-      },
-      {
         "model": "MiMo-V2.6-Pro",
         "creator": "Xiaomi",
         "score": 0.54,
@@ -451,6 +445,12 @@
         "creator": "OpenAI",
         "score": 8,
         "quality": 47
+      },
+      {
+        "model": "Claude Opus 5 (Max)",
+        "creator": "Anthropic",
+        "score": 10,
+        "quality": 50.8
       }
     ],
     "aa_speed": [
@@ -611,62 +611,74 @@
       {
         "model": "Qwen3.8 Max (0902)",
         "creator": "Alibaba",
-        "score": "1.1M"
+        "score": "1.1M",
+        "raw": 1131072
       },
       {
         "model": "GPT-6 Astra",
         "creator": "OpenAI",
-        "score": "1.1M"
+        "score": "1.1M",
+        "raw": 1050000
       },
       {
         "model": "GPT-6.1 Sol",
         "creator": "OpenAI",
-        "score": "1.1M"
+        "score": "1.1M",
+        "raw": 1050000
       },
       {
         "model": "GPT-6 Sol",
         "creator": "OpenAI",
-        "score": "1.1M"
+        "score": "1.1M",
+        "raw": 1050000
       },
       {
         "model": "GPT-5.6 Sol",
         "creator": "OpenAI",
-        "score": "1.1M"
+        "score": "1.1M",
+        "raw": 1050000
       },
       {
         "model": "MiMo-V2.6-Pro",
         "creator": "Xiaomi",
-        "score": "1.1M"
+        "score": "1.1M",
+        "raw": 1050000
       },
       {
         "model": "Gemini 4 Argon",
         "creator": "Google",
-        "score": "1M"
+        "score": "1M",
+        "raw": 1048576
       },
       {
         "model": "Muse Wonder",
         "creator": "Meta",
-        "score": "1M"
+        "score": "1M",
+        "raw": 1048576
       },
       {
         "model": "Muse Spark 1.3",
         "creator": "Meta",
-        "score": "1M"
+        "score": "1M",
+        "raw": 1048576
       },
       {
         "model": "Claude Opus 5",
         "creator": "Anthropic",
-        "score": "1M"
+        "score": "1M",
+        "raw": 1000000
       },
       {
         "model": "Claude Fable 5 (Max, Opus 4.8 Fallback)",
         "creator": "Anthropic",
-        "score": "1M"
+        "score": "1M",
+        "raw": 1000000
       },
       {
         "model": "Grok 4.7",
         "creator": "SpaceXAI",
-        "score": "524K"
+        "score": "524K",
+        "raw": 524288
       }
     ]
   }

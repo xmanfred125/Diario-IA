@@ -6,31 +6,44 @@
 <title>Vexa Times — La Carrera / The AI Race</title>
 <meta name="description" content="Vexa Times — La Carrera: verified rankings of the AI race. Quality, coding, cost, speed, capacity and reliability. / Rankings verificados de la carrera de la IA.">
 <link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
   .race-intro { margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
   .race-intro h2 { font-size: 28px; font-weight: 700; }
   .race-intro p { color: var(--muted); font-size: 15px; font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; }
-  .race-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; margin-bottom: 40px; }
-  .race-table-card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
-  .race-table-card h3 { padding: 16px 18px 8px; font-size: 20px; }
-  .race-table-card .src { padding: 0 18px 10px; font-size: 12px; color: var(--muted); font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.8px; }
-  table.race { width: 100%; border-collapse: collapse; font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; font-size: 14.5px; }
-  table.race th, table.race td { padding: 9px 14px; text-align: left; border-top: 1px solid var(--line); }
+  .race-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 24px; margin-bottom: 40px; }
+  .race-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.04); }
+  .race-card-head { padding: 18px 20px 4px; }
+  .race-card-head h3 { font-size: 21px; }
+  .race-card-head .src { font-size: 12px; color: var(--muted); font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 4px; }
+  .podium { display: flex; gap: 10px; padding: 14px 20px 4px; }
+  .pod-item { flex: 1; border-radius: 10px; padding: 12px 10px; text-align: center; background: #faf8f4; border: 1px solid var(--line); min-width: 0; }
+  .pod-item.rank1 { background: linear-gradient(180deg, #fef9e7, #fdeec9); border-color: #e8c96a; }
+  .pod-item.rank2 { background: linear-gradient(180deg, #f8fafc, #eef2f7); border-color: #c3ccd6; }
+  .pod-item.rank3 { background: linear-gradient(180deg, #fdf6ec, #f7e8d2); border-color: #d9a45b; }
+  .pod-medal { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; font-weight: 800; font-size: 15px; color: #fff; font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; margin-bottom: 6px; }
+  .rank1 .pod-medal { background: #d4af37; }
+  .rank2 .pod-medal { background: #9ca3af; }
+  .rank3 .pod-medal { background: #b45309; }
+  .pod-logo { width: 28px; height: 28px; border-radius: 6px; display: block; margin: 0 auto 6px; background: #fff; }
+  .pod-name { font-size: 13px; font-weight: 700; line-height: 1.25; font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .pod-score { font-size: 15px; font-weight: 800; color: var(--accent); font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; margin-top: 4px; }
+  .chart-wrap { position: relative; height: 300px; padding: 8px 12px 4px; }
+  .race-details { border-top: 1px solid var(--line); margin-top: 6px; }
+  .race-details summary { cursor: pointer; padding: 12px 20px; font-size: 14px; color: var(--accent); font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; font-weight: 700; }
+  table.race { width: 100%; border-collapse: collapse; font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; font-size: 14px; }
+  table.race th, table.race td { padding: 8px 14px; text-align: left; border-top: 1px solid var(--line); }
   table.race th { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.8px; border-top: none; }
-  table.race td.rank { width: 44px; font-weight: 700; color: var(--accent); }
+  table.race td.rank { width: 40px; font-weight: 700; color: var(--accent); }
   table.race td.score { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
   table.race th.score { text-align: right; }
-  .soon-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 40px; }
-  .soon-card { background: var(--card); border: 1px dashed var(--line); border-radius: 8px; padding: 18px; }
-  .soon-card h3 { font-size: 18px; margin-bottom: 6px; }
-  .soon-card p { font-size: 14px; color: #444; font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; margin-bottom: 10px; }
-  .soon-badge { display: inline-block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 4px 10px; font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; }
+  table.race img.rlogo { width: 18px; height: 18px; border-radius: 4px; vertical-align: -3px; margin-right: 8px; background: #fff; }
   .method { border-top: 1px solid var(--line); padding-top: 24px; margin-bottom: 32px; }
   .method h2 { font-size: 22px; margin-bottom: 12px; }
   .method p { font-size: 16px; margin-bottom: 1em; max-width: 780px; }
   .method a, .attr a { color: var(--accent); }
   .attr { font-size: 13px; color: var(--muted); font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; }
-  @media (max-width: 640px) { .race-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) { .race-grid { grid-template-columns: 1fr; } .chart-wrap { height: 280px; } }
 </style>
 </head>
 <body>
@@ -62,104 +75,7 @@
     <span data-i18n="updated_on">Actualizado el</span> <span id="race-updated">…</span></p>
   </section>
 
-  <section class="race-grid">
-    <div class="race-table-card">
-      <h3 data-i18n="dim_quality">Calidad general</h3>
-      <div class="src">LMArena · Elo</div>
-      <table class="race" id="table-full">
-        <thead><tr>
-          <th data-i18n="col_rank">#</th>
-          <th data-i18n="col_model">Modelo</th>
-          <th class="score">Elo</th>
-        </tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div class="race-table-card">
-      <h3 data-i18n="dim_coding">Programación</h3>
-      <div class="src">LMArena · Elo</div>
-      <table class="race" id="table-coding">
-        <thead><tr>
-          <th data-i18n="col_rank">#</th>
-          <th data-i18n="col_model">Modelo</th>
-          <th class="score">Elo</th>
-        </tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div class="race-table-card">
-      <h3 data-i18n="dim_quality_aa">Calidad (benchmarks)</h3>
-      <div class="src" data-i18n="src_aa_quality">Artificial Analysis · Índice de inteligencia</div>
-      <table class="race" id="table-aa-quality">
-        <thead><tr>
-          <th data-i18n="col_rank">#</th>
-          <th data-i18n="col_model">Modelo</th>
-          <th class="score" data-i18n="col_score">Puntaje</th>
-        </tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div class="race-table-card">
-      <h3 data-i18n="dim_coding_aa">Programación (benchmarks)</h3>
-      <div class="src" data-i18n="src_aa_coding">Artificial Analysis · Índice de programación</div>
-      <table class="race" id="table-aa-coding">
-        <thead><tr>
-          <th data-i18n="col_rank">#</th>
-          <th data-i18n="col_model">Modelo</th>
-          <th class="score" data-i18n="col_score">Puntaje</th>
-        </tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div class="race-table-card">
-      <h3 data-i18n="dim_cost">Costo</h3>
-      <div class="src" data-i18n="src_aa_cost">Artificial Analysis · USD por 1M tokens</div>
-      <table class="race" id="table-aa-cost">
-        <thead><tr>
-          <th data-i18n="col_rank">#</th>
-          <th data-i18n="col_model">Modelo</th>
-          <th class="score" data-i18n="col_price">Precio</th>
-        </tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div class="race-table-card">
-      <h3 data-i18n="dim_speed">Velocidad</h3>
-      <div class="src" data-i18n="src_aa_speed">Artificial Analysis · tokens por segundo</div>
-      <table class="race" id="table-aa-speed">
-        <thead><tr>
-          <th data-i18n="col_rank">#</th>
-          <th data-i18n="col_model">Modelo</th>
-          <th class="score" data-i18n="col_speed">Vel.</th>
-        </tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div class="race-table-card">
-      <h3 data-i18n="dim_reliability">Confiabilidad</h3>
-      <div class="src" data-i18n="src_vectara">Vectara · tasa de alucinación</div>
-      <table class="race" id="table-reliability">
-        <thead><tr>
-          <th data-i18n="col_rank">#</th>
-          <th data-i18n="col_model">Modelo</th>
-          <th class="score" data-i18n="col_rate">Tasa</th>
-        </tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div class="race-table-card">
-      <h3 data-i18n="dim_capacity">Capacidad</h3>
-      <div class="src" data-i18n="src_modelsdev">models.dev · ventana de contexto</div>
-      <table class="race" id="table-capacity">
-        <thead><tr>
-          <th data-i18n="col_rank">#</th>
-          <th data-i18n="col_model">Modelo</th>
-          <th class="score" data-i18n="col_context">Contexto</th>
-        </tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </section>
+  <section class="race-grid" id="race-grid"></section>
 
   <section class="method">
     <h2 data-i18n="methodology_title">Metodología</h2>
@@ -187,31 +103,28 @@
       dim_coding: "Programación",
       dim_quality_aa: "Calidad (benchmarks)",
       dim_coding_aa: "Programación (benchmarks)",
+      dim_cost: "Costo",
+      dim_speed: "Velocidad",
+      dim_capacity: "Capacidad",
+      dim_reliability: "Confiabilidad",
+      src_lmarena: "LMArena · Elo",
       src_aa_quality: "Artificial Analysis · Índice de inteligencia",
       src_aa_coding: "Artificial Analysis · Índice de programación",
       src_aa_cost: "Artificial Analysis · USD por 1M de tokens",
       src_aa_speed: "Artificial Analysis · tokens por segundo",
       src_vectara: "Vectara · tasa de alucinación",
       src_modelsdev: "models.dev · ventana de contexto",
-      col_rate: "Tasa",
-      col_context: "Contexto",
+      col_rank: "#",
+      col_model: "Modelo",
       col_score: "Puntaje",
       col_price: "Precio",
       col_speed: "Vel.",
-      dim_cost: "Costo",
-      dim_speed: "Velocidad",
-      dim_capacity: "Capacidad",
-      dim_reliability: "Confiabilidad",
-      col_rank: "#",
-      col_model: "Modelo",
-      coming_soon: "Próximamente",
-      cost_desc: "Precio por tarea completada, no solo por token: lo que realmente cuesta usar cada modelo.",
-      speed_desc: "Tokens por segundo y latencia real de cada modelo en producción.",
-      capacity_desc: "Ventana de contexto y límite de salida por respuesta: cuánta información maneja cada modelo.",
-      reliability_desc: "Tasa de alucinaciones: con qué frecuencia cada modelo inventa en vez de decir «no lo sé».",
+      col_rate: "Tasa",
+      col_context: "Contexto",
+      view_table: "Ver tabla completa",
       methodology_title: "Metodología",
       methodology_p1: "Los rankings de La Carrera se construyen cruzando datos de fuentes independientes. Ningún número publicado por un fabricante se publica solo: siempre va junto al dato independiente, con su fuente y su fecha.",
-      methodology_p2: "Los puntajes Elo provienen de LMArena, donde los modelos compiten a ciegas y votan personas reales. Los rankings se actualizan semanalmente; la fecha de actualización aparece arriba.",
+      methodology_p2: "Los puntajes Elo provienen de LMArena, donde los modelos compiten a ciegas y votan personas reales. Los índices de calidad, programación, precio y velocidad provienen de Artificial Analysis, que mide cada modelo de forma independiente. La tasa de alucinación proviene de Vectara y la ventana de contexto de models.dev. Los rankings se actualizan semanalmente; la fecha de actualización aparece arriba.",
       data_source: "Datos",
       footer_tag: "Noticias diarias de IA, en inglés y español.",
       load_error: "No se pudieron cargar los datos. Inténtalo de nuevo más tarde."
@@ -225,28 +138,25 @@
       dim_coding: "Coding",
       dim_quality_aa: "Quality (benchmarks)",
       dim_coding_aa: "Coding (benchmarks)",
+      dim_cost: "Cost",
+      dim_speed: "Speed",
+      dim_capacity: "Capacity",
+      dim_reliability: "Reliability",
+      src_lmarena: "LMArena · Elo",
       src_aa_quality: "Artificial Analysis · Intelligence Index",
       src_aa_coding: "Artificial Analysis · Coding Index",
       src_aa_cost: "Artificial Analysis · USD per 1M tokens",
       src_aa_speed: "Artificial Analysis · tokens per second",
       src_vectara: "Vectara · hallucination rate",
       src_modelsdev: "models.dev · context window",
-      col_rate: "Rate",
-      col_context: "Context",
+      col_rank: "#",
+      col_model: "Model",
       col_score: "Score",
       col_price: "Price",
       col_speed: "Speed",
-      dim_cost: "Cost",
-      dim_speed: "Speed",
-      dim_capacity: "Capacity",
-      dim_reliability: "Reliability",
-      col_rank: "#",
-      col_model: "Model",
-      coming_soon: "Coming soon",
-      cost_desc: "Price per completed task, not just per token: what it really costs to use each model.",
-      speed_desc: "Tokens per second and real-world latency of each model in production.",
-      capacity_desc: "Context window and per-response output limit: how much information each model handles.",
-      reliability_desc: "Hallucination rate: how often each model makes things up instead of saying “I don't know”.",
+      col_rate: "Rate",
+      col_context: "Context",
+      view_table: "View full table",
       methodology_title: "Methodology",
       methodology_p1: "The AI Race rankings are built by cross-checking data from independent sources. No vendor-published number stands alone: it always appears next to the independent figure, with its source and date.",
       methodology_p2: "Elo scores come from LMArena, where models compete blind and real people vote. The quality, coding, price and speed indexes come from Artificial Analysis, which measures each model independently. The hallucination rate comes from Vectara and the context window from models.dev. Rankings update weekly; the update date is shown above.",
@@ -255,6 +165,54 @@
       load_error: "Could not load the data. Please try again later."
     }
   };
+
+  var DOMAIN_BY_CREATOR = {
+    "OpenAI": "openai.com", "Google": "google.com", "Anthropic": "anthropic.com",
+    "Meta": "meta.com", "xAI": "x.ai", "DeepSeek": "deepseek.com",
+    "Mistral": "mistral.ai", "Alibaba": "alibaba.com", "Z AI": "z.ai",
+    "Kimi": "moonshot.ai", "Cohere": "cohere.com", "Amazon": "amazon.com",
+    "Microsoft": "microsoft.com", "Nvidia": "nvidia.com", "MiniMax": "minimax.io",
+    "Tencent": "tencent.com", "Xiaomi": "xiaomi.com", "AI21 Labs": "ai21.com",
+    "IBM": "ibm.com", "Snowflake": "snowflake.com", "Arcee AI": "arcee.ai"
+  };
+
+  function domainFor(row) {
+    if (row.creator && DOMAIN_BY_CREATOR[row.creator]) return DOMAIN_BY_CREATOR[row.creator];
+    var n = String(row.model || "").toLowerCase();
+    var prefixes = [
+      ["gpt", "openai.com"], ["openai", "openai.com"],
+      ["gemini", "google.com"], ["gemma", "google.com"],
+      ["claude", "anthropic.com"], ["grok", "x.ai"],
+      ["deepseek", "deepseek.com"], ["qwen", "alibaba.com"],
+      ["mistral", "mistral.ai"], ["ministral", "mistral.ai"],
+      ["llama", "meta.com"], ["muse", "meta.com"],
+      ["kimi", "moonshot.ai"], ["moonshot", "moonshot.ai"],
+      ["glm", "z.ai"], ["mimo", "xiaomi.com"], ["xiaomi", "xiaomi.com"],
+      ["nova", "amazon.com"], ["phi", "microsoft.com"],
+      ["minimax", "minimax.io"], ["command", "cohere.com"], ["c4ai", "cohere.com"],
+      ["jamba", "ai21.com"], ["granite", "ibm.com"], ["arctic", "snowflake.com"],
+      ["finix", "antgroup.com"], ["trinity", "arcee.ai"], ["mercury", "inceptionlabs.ai"],
+      ["nemotron", "nvidia.com"], ["hunyuan", "tencent.com"], ["inkling", "thinkingmachines.ai"]
+    ];
+    for (var i = 0; i < prefixes.length; i++) {
+      if (n.indexOf(prefixes[i][0]) === 0) return prefixes[i][1];
+    }
+    return null;
+  }
+
+  function logoUrl(row) {
+    var d = domainFor(row);
+    return d ? "https://www.google.com/s2/favicons?domain=" + d + "&sz=64" : null;
+  }
+
+  function shortName(n) {
+    return String(n)
+      .replace(/\s*\((Max|Xhigh|High|Medium|Low)\)\s*$/i, "")
+      .replace(/-20\d{6}.*$/, "")
+      .replace(/-\d{4}$/, "")
+      .replace(/-thinking.*$/, "")
+      .replace(/-preview.*$/, "");
+  }
 
   var state = { lang: "en" };
   try {
@@ -288,6 +246,103 @@
     } catch (e) { return iso; }
   }
 
+  function numVal(row, key) {
+    if (key === "full" || key === "coding") return row.rating;
+    if (key === "capacity") return row.raw;
+    return row.score;
+  }
+  function fmtVal(row, key) {
+    if (key === "full" || key === "coding") return Number(row.rating).toFixed(1);
+    if (key === "aa_cost") return "$" + Number(row.score).toFixed(2);
+    if (key === "aa_speed") return Number(row.score).toFixed(0) + " t/s";
+    if (key === "reliability") return Number(row.score).toFixed(1) + " %";
+    if (key === "capacity") return String(row.score);
+    return Number(row.score).toFixed(1);
+  }
+
+  var DIMS = [
+    { key: "aa_quality", title: "dim_quality_aa", src: "src_aa_quality", col: "col_score", color: "#b91c1c" },
+    { key: "full", title: "dim_quality", src: "src_lmarena", col: "Elo", color: "#7f1d1d" },
+    { key: "aa_coding", title: "dim_coding_aa", src: "src_aa_coding", col: "col_score", color: "#1d4ed8" },
+    { key: "coding", title: "dim_coding", src: "src_lmarena", col: "Elo", color: "#1e3a8a" },
+    { key: "aa_cost", title: "dim_cost", src: "src_aa_cost", col: "col_price", color: "#15803d" },
+    { key: "aa_speed", title: "dim_speed", src: "src_aa_speed", col: "col_speed", color: "#c2410c" },
+    { key: "reliability", title: "dim_reliability", src: "src_vectara", col: "col_rate", color: "#6d28d9" },
+    { key: "capacity", title: "dim_capacity", src: "src_modelsdev", col: "col_context", color: "#0e7490" }
+  ];
+
+  function colLabel(dim) {
+    return dim.col === "Elo" ? "Elo" : S()[dim.col];
+  }
+
+  function renderCard(dim, rows) {
+    var s = S();
+    var card = document.createElement("div");
+    card.className = "race-card";
+    var html = "";
+    html += '<div class="race-card-head"><h3>' + esc(s[dim.title]) + "</h3>";
+    html += '<div class="src">' + esc(s[dim.src]) + "</div></div>";
+    html += '<div class="podium">';
+    rows.slice(0, 3).forEach(function (r, i) {
+      var lu = logoUrl(r);
+      html += '<div class="pod-item rank' + (i + 1) + '">';
+      html += '<span class="pod-medal">' + (i + 1) + "</span>";
+      if (lu) html += '<img class="pod-logo" src="' + lu + '" alt="" loading="lazy" onerror="this.style.display=\'none\'">';
+      html += '<div class="pod-name">' + esc(shortName(r.model)) + "</div>";
+      html += '<div class="pod-score">' + esc(fmtVal(r, dim.key)) + "</div>";
+      html += "</div>";
+    });
+    html += "</div>";
+    html += '<div class="chart-wrap"><canvas id="chart-' + dim.key + '"></canvas></div>';
+    html += '<details class="race-details"><summary>' + esc(s.view_table) + "</summary>";
+    html += '<table class="race"><thead><tr><th>' + esc(s.col_rank) + "</th><th>" + esc(s.col_model) + "</th>";
+    html += '<th class="score">' + esc(colLabel(dim)) + "</th></tr></thead><tbody>";
+    rows.slice(0, 10).forEach(function (r, i) {
+      var lu = logoUrl(r);
+      html += "<tr><td class=\"rank\">" + (i + 1) + "</td><td>";
+      if (lu) html += '<img class="rlogo" src="' + lu + '" alt="" loading="lazy" onerror="this.style.display=\'none\'">';
+      html += esc(r.model) + "</td>";
+      html += '<td class="score">' + esc(fmtVal(r, dim.key)) + "</td></tr>";
+    });
+    html += "</tbody></table></details>";
+    card.innerHTML = html;
+    return card;
+  }
+
+  function buildChart(dim, rows) {
+    if (!window.Chart) return;
+    var canvas = document.getElementById("chart-" + dim.key);
+    if (!canvas) return;
+    var top = rows.slice(0, 10);
+    var labels = top.map(function (r) { return shortName(r.model); });
+    var data = top.map(function (r) { return numVal(r, dim.key); });
+    var bg = top.map(function (_, i) { return dim.color + (i < 3 ? "E6" : "A6"); });
+    try {
+      new Chart(canvas, {
+        type: "bar",
+        data: { labels: labels, datasets: [{ data: data, backgroundColor: bg, borderRadius: 5, barThickness: 16 }] },
+        options: {
+          indexAxis: "y",
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                title: function (items) { return top[items[0].dataIndex].model; },
+                label: function (item) { return " " + fmtVal(top[item.dataIndex], dim.key); }
+              }
+            }
+          },
+          scales: {
+            x: { beginAtZero: true, ticks: { font: { size: 10 } }, grid: { color: "#eee" } },
+            y: { ticks: { font: { size: 10 }, autoSkip: false }, grid: { display: false } }
+          }
+        }
+      });
+    } catch (e) { /* chart optional; tables remain */ }
+  }
+
   function applyI18n() {
     var s = S();
     document.documentElement.lang = state.lang;
@@ -300,67 +355,45 @@
     document.title = "Vexa Times — " + (state.lang === "es" ? "La Carrera" : "The AI Race");
   }
 
-  function renderTable(tbodyId, rows, fmt) {
-    var tbody = document.querySelector("#" + tbodyId + " tbody");
-    tbody.innerHTML = "";
-    rows.slice(0, 10).forEach(function (r, i) {
-      var tr = document.createElement("tr");
-      var tdRank = document.createElement("td");
-      tdRank.className = "rank";
-      tdRank.textContent = String(i + 1);
-      var tdModel = document.createElement("td");
-      tdModel.textContent = r.model;
-      if (r.creator) {
-        var sp = document.createElement("span");
-        sp.style.cssText = "display:block;font-size:12px;color:var(--muted)";
-        sp.textContent = r.creator;
-        tdModel.appendChild(sp);
-      }
-      var tdScore = document.createElement("td");
-      tdScore.className = "score";
-      tdScore.textContent = fmt(r);
-      tr.appendChild(tdRank);
-      tr.appendChild(tdModel);
-      tr.appendChild(tdScore);
-      tbody.appendChild(tr);
-    });
-  }
-  function fmtElo(r) { return String(r.rating); }
-  function fmtIdx(r) { return String(r.score); }
-  function fmtPrice(r) { return "$" + Number(r.score).toFixed(2); }
-  function fmtSpeed(r) { return Number(r.score).toFixed(0) + " t/s"; }
-  function fmtPct(r) { return Number(r.score).toFixed(1) + " %"; }
-  function fmtCtx(r) { return String(r.score); }
-
   function setLang(lang) {
     if (lang !== "es" && lang !== "en") return;
     state.lang = lang;
     try { localStorage.setItem("vexa-lang", lang); } catch (e) {}
-    applyI18n();
+    buildAll();
     $("today-date").textContent = formatDate(new Date().toISOString().slice(0, 10));
-    if (window.__raceUpdated) $("race-updated").textContent = formatDateShort(window.__raceUpdated);
+    if (window.__raceData) $("race-updated").textContent = formatDateShort(window.__raceData.updated);
+  }
+
+  function buildAll() {
+    applyI18n();
+    var grid = $("race-grid");
+    grid.innerHTML = "";
+    var d = window.__raceData;
+    if (!d) return;
+    DIMS.forEach(function (dim) {
+      var rows = (d.categories[dim.key] || []).slice();
+      if (!rows.length) return;
+      grid.appendChild(renderCard(dim, rows));
+    });
+    DIMS.forEach(function (dim) {
+      var rows = (window.__raceData.categories[dim.key] || []).slice();
+      if (rows.length) buildChart(dim, rows);
+    });
   }
 
   function load() {
     $("today-date").textContent = formatDate(new Date().toISOString().slice(0, 10));
+    applyI18n();
     fetch("race-data.json", { cache: "no-store" })
       .then(function (r) { if (!r.ok) throw new Error("race-data"); return r.json(); })
       .then(function (d) {
-        window.__raceUpdated = d.updated;
+        window.__raceData = d;
         $("race-updated").textContent = formatDateShort(d.updated);
-        renderTable("table-full", d.categories.full || [], fmtElo);
-        renderTable("table-coding", d.categories.coding || [], fmtElo);
-        renderTable("table-aa-quality", d.categories.aa_quality || [], fmtIdx);
-        renderTable("table-aa-coding", d.categories.aa_coding || [], fmtIdx);
-        renderTable("table-aa-cost", d.categories.aa_cost || [], fmtPrice);
-        renderTable("table-aa-speed", d.categories.aa_speed || [], fmtSpeed);
-        renderTable("table-reliability", d.categories.reliability || [], fmtPct);
-        renderTable("table-capacity", d.categories.capacity || [], fmtCtx);
+        buildAll();
       })
       .catch(function () {
         $("race-updated").textContent = esc(S().load_error);
       });
-    applyI18n();
     $("lang-es").addEventListener("click", function () { setLang("es"); });
     $("lang-en").addEventListener("click", function () { setLang("en"); });
   }
