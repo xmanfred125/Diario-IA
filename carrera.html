@@ -87,19 +87,57 @@
         <tbody></tbody>
       </table>
     </div>
+    <div class="race-table-card">
+      <h3 data-i18n="dim_quality_aa">Calidad (benchmarks)</h3>
+      <div class="src" data-i18n="src_aa_quality">Artificial Analysis · Índice de inteligencia</div>
+      <table class="race" id="table-aa-quality">
+        <thead><tr>
+          <th data-i18n="col_rank">#</th>
+          <th data-i18n="col_model">Modelo</th>
+          <th class="score" data-i18n="col_score">Puntaje</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="race-table-card">
+      <h3 data-i18n="dim_coding_aa">Programación (benchmarks)</h3>
+      <div class="src" data-i18n="src_aa_coding">Artificial Analysis · Índice de programación</div>
+      <table class="race" id="table-aa-coding">
+        <thead><tr>
+          <th data-i18n="col_rank">#</th>
+          <th data-i18n="col_model">Modelo</th>
+          <th class="score" data-i18n="col_score">Puntaje</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="race-table-card">
+      <h3 data-i18n="dim_cost">Costo</h3>
+      <div class="src" data-i18n="src_aa_cost">Artificial Analysis · USD por 1M tokens</div>
+      <table class="race" id="table-aa-cost">
+        <thead><tr>
+          <th data-i18n="col_rank">#</th>
+          <th data-i18n="col_model">Modelo</th>
+          <th class="score" data-i18n="col_price">Precio</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="race-table-card">
+      <h3 data-i18n="dim_speed">Velocidad</h3>
+      <div class="src" data-i18n="src_aa_speed">Artificial Analysis · tokens por segundo</div>
+      <table class="race" id="table-aa-speed">
+        <thead><tr>
+          <th data-i18n="col_rank">#</th>
+          <th data-i18n="col_model">Modelo</th>
+          <th class="score" data-i18n="col_speed">Vel.</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </section>
 
   <section class="soon-grid">
-    <div class="soon-card">
-      <h3 data-i18n="dim_cost">Costo</h3>
-      <p data-i18n="cost_desc">Precio por tarea completada, no solo por token: lo que realmente cuesta usar cada modelo.</p>
-      <span class="soon-badge" data-i18n="coming_soon">Próximamente</span>
-    </div>
-    <div class="soon-card">
-      <h3 data-i18n="dim_speed">Velocidad</h3>
-      <p data-i18n="speed_desc">Tokens por segundo y latencia real de cada modelo en producción.</p>
-      <span class="soon-badge" data-i18n="coming_soon">Próximamente</span>
-    </div>
     <div class="soon-card">
       <h3 data-i18n="dim_capacity">Capacidad</h3>
       <p data-i18n="capacity_desc">Ventana de contexto y límite de salida por respuesta: cuánta información maneja cada modelo.</p>
@@ -115,8 +153,8 @@
   <section class="method">
     <h2 data-i18n="methodology_title">Metodología</h2>
     <p data-i18n="methodology_p1">Los rankings de La Carrera se construyen cruzando datos de fuentes independientes. Ningún número publicado por un fabricante se publica solo: siempre va junto al dato independiente, con su fuente y su fecha.</p>
-    <p data-i18n="methodology_p2">Los puntajes Elo provienen de LMArena, donde los modelos compiten a ciegas y votan personas reales. Los rankings se actualizan semanalmente; la fecha de actualización aparece arriba.</p>
-    <p class="attr"><span data-i18n="data_source">Datos</span>: <a href="https://lmarena.ai" target="_blank" rel="noopener">LMArena</a></p>
+    <p data-i18n="methodology_p2">Los puntajes Elo provienen de LMArena, donde los modelos compiten a ciegas y votan personas reales. Los índices de calidad, programación, precio y velocidad provienen de Artificial Analysis, que mide cada modelo de forma independiente. Los rankings se actualizan semanalmente; la fecha de actualización aparece arriba.</p>
+    <p class="attr"><span data-i18n="data_source">Datos</span>: <a href="https://lmarena.ai" target="_blank" rel="noopener">LMArena</a> · <a href="https://artificialanalysis.ai" target="_blank" rel="noopener">Artificial Analysis</a></p>
   </section>
 </main>
 
@@ -136,6 +174,15 @@
       back_home: "← Inicio",
       dim_quality: "Calidad general",
       dim_coding: "Programación",
+      dim_quality_aa: "Calidad (benchmarks)",
+      dim_coding_aa: "Programación (benchmarks)",
+      src_aa_quality: "Artificial Analysis · Índice de inteligencia",
+      src_aa_coding: "Artificial Analysis · Índice de programación",
+      src_aa_cost: "Artificial Analysis · USD por 1M de tokens",
+      src_aa_speed: "Artificial Analysis · tokens por segundo",
+      col_score: "Puntaje",
+      col_price: "Precio",
+      col_speed: "Vel.",
       dim_cost: "Costo",
       dim_speed: "Velocidad",
       dim_capacity: "Capacidad",
@@ -161,6 +208,15 @@
       back_home: "← Home",
       dim_quality: "Overall quality",
       dim_coding: "Coding",
+      dim_quality_aa: "Quality (benchmarks)",
+      dim_coding_aa: "Coding (benchmarks)",
+      src_aa_quality: "Artificial Analysis · Intelligence Index",
+      src_aa_coding: "Artificial Analysis · Coding Index",
+      src_aa_cost: "Artificial Analysis · USD per 1M tokens",
+      src_aa_speed: "Artificial Analysis · tokens per second",
+      col_score: "Score",
+      col_price: "Price",
+      col_speed: "Speed",
       dim_cost: "Cost",
       dim_speed: "Speed",
       dim_capacity: "Capacity",
@@ -174,7 +230,7 @@
       reliability_desc: "Hallucination rate: how often each model makes things up instead of saying “I don't know”.",
       methodology_title: "Methodology",
       methodology_p1: "The AI Race rankings are built by cross-checking data from independent sources. No vendor-published number stands alone: it always appears next to the independent figure, with its source and date.",
-      methodology_p2: "Elo scores come from LMArena, where models compete blind and real people vote. Rankings update weekly; the update date is shown above.",
+      methodology_p2: "Elo scores come from LMArena, where models compete blind and real people vote. The quality, coding, price and speed indexes come from Artificial Analysis, which measures each model independently. Rankings update weekly; the update date is shown above.",
       data_source: "Data",
       footer_tag: "Daily AI news, in English and Spanish.",
       load_error: "Could not load the data. Please try again later."
@@ -225,7 +281,7 @@
     document.title = "Vexa Times — " + (state.lang === "es" ? "La Carrera" : "The AI Race");
   }
 
-  function renderTable(tbodyId, rows) {
+  function renderTable(tbodyId, rows, fmt) {
     var tbody = document.querySelector("#" + tbodyId + " tbody");
     tbody.innerHTML = "";
     rows.slice(0, 10).forEach(function (r, i) {
@@ -235,15 +291,25 @@
       tdRank.textContent = String(i + 1);
       var tdModel = document.createElement("td");
       tdModel.textContent = r.model;
+      if (r.creator) {
+        var sp = document.createElement("span");
+        sp.style.cssText = "display:block;font-size:12px;color:var(--muted)";
+        sp.textContent = r.creator;
+        tdModel.appendChild(sp);
+      }
       var tdScore = document.createElement("td");
       tdScore.className = "score";
-      tdScore.textContent = r.rating;
+      tdScore.textContent = fmt(r);
       tr.appendChild(tdRank);
       tr.appendChild(tdModel);
       tr.appendChild(tdScore);
       tbody.appendChild(tr);
     });
   }
+  function fmtElo(r) { return String(r.rating); }
+  function fmtIdx(r) { return String(r.score); }
+  function fmtPrice(r) { return "$" + Number(r.score).toFixed(2); }
+  function fmtSpeed(r) { return Number(r.score).toFixed(0) + " t/s"; }
 
   function setLang(lang) {
     if (lang !== "es" && lang !== "en") return;
@@ -261,8 +327,12 @@
       .then(function (d) {
         window.__raceUpdated = d.updated;
         $("race-updated").textContent = formatDateShort(d.updated);
-        renderTable("table-full", d.categories.full || []);
-        renderTable("table-coding", d.categories.coding || []);
+        renderTable("table-full", d.categories.full || [], fmtElo);
+        renderTable("table-coding", d.categories.coding || [], fmtElo);
+        renderTable("table-aa-quality", d.categories.aa_quality || [], fmtIdx);
+        renderTable("table-aa-coding", d.categories.aa_coding || [], fmtIdx);
+        renderTable("table-aa-cost", d.categories.aa_cost || [], fmtPrice);
+        renderTable("table-aa-speed", d.categories.aa_speed || [], fmtSpeed);
       })
       .catch(function () {
         $("race-updated").textContent = esc(S().load_error);
