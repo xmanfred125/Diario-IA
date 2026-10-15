@@ -10,6 +10,16 @@
       "name": "Artificial Analysis",
       "url": "https://artificialanalysis.ai",
       "note": "Índice de inteligencia, precio y velocidad medidos de forma independiente"
+    },
+    {
+      "name": "Vectara",
+      "url": "https://github.com/vectara/hallucination-leaderboard",
+      "note": "Tasa de alucinación en resúmenes (HHEM)"
+    },
+    {
+      "name": "models.dev",
+      "url": "https://models.dev",
+      "note": "Ventana de contexto por modelo"
     }
   ],
   "categories": {
@@ -533,6 +543,130 @@
         "creator": "OpenAI",
         "score": 41.7,
         "quality": 45.8
+      }
+    ],
+    "reliability": [
+      {
+        "model": "finix s1 32b",
+        "score": 1.8
+      },
+      {
+        "model": "gpt 5.4 nano",
+        "score": 3.1
+      },
+      {
+        "model": "gemini 2.5 flash lite",
+        "score": 3.3
+      },
+      {
+        "model": "Phi",
+        "score": 3.7
+      },
+      {
+        "model": "Llama 3.3 70B Instruct Turbo",
+        "score": 4.1
+      },
+      {
+        "model": "snowflake arctic instruct",
+        "score": 4.3
+      },
+      {
+        "model": "gemma 3 12b it",
+        "score": 4.4
+      },
+      {
+        "model": "mistral large",
+        "score": 4.5
+      },
+      {
+        "model": "qwen3 8b",
+        "score": 4.8
+      },
+      {
+        "model": "nova pro v1:0",
+        "score": 5.1
+      },
+      {
+        "model": "nova 2 lite v1:0",
+        "score": 5.1
+      },
+      {
+        "model": "mistral small",
+        "score": 5.1
+      },
+      {
+        "model": "granite 4.0 h small",
+        "score": 5.2
+      },
+      {
+        "model": "gemma 4 26b a4b it",
+        "score": 5.2
+      },
+      {
+        "model": "jamba mini",
+        "score": 5.3
+      }
+    ],
+    "capacity": [
+      {
+        "model": "Qwen3.8 Max (0902)",
+        "creator": "Alibaba",
+        "score": "1.1M"
+      },
+      {
+        "model": "GPT-6 Astra",
+        "creator": "OpenAI",
+        "score": "1.1M"
+      },
+      {
+        "model": "GPT-6.1 Sol",
+        "creator": "OpenAI",
+        "score": "1.1M"
+      },
+      {
+        "model": "GPT-6 Sol",
+        "creator": "OpenAI",
+        "score": "1.1M"
+      },
+      {
+        "model": "GPT-5.6 Sol",
+        "creator": "OpenAI",
+        "score": "1.1M"
+      },
+      {
+        "model": "MiMo-V2.6-Pro",
+        "creator": "Xiaomi",
+        "score": "1.1M"
+      },
+      {
+        "model": "Gemini 4 Argon",
+        "creator": "Google",
+        "score": "1M"
+      },
+      {
+        "model": "Muse Wonder",
+        "creator": "Meta",
+        "score": "1M"
+      },
+      {
+        "model": "Muse Spark 1.3",
+        "creator": "Meta",
+        "score": "1M"
+      },
+      {
+        "model": "Claude Opus 5",
+        "creator": "Anthropic",
+        "score": "1M"
+      },
+      {
+        "model": "Claude Fable 5 (Max, Opus 4.8 Fallback)",
+        "creator": "Anthropic",
+        "score": "1M"
+      },
+      {
+        "model": "Grok 4.7",
+        "creator": "SpaceXAI",
+        "score": "524K"
       }
     ]
   }
