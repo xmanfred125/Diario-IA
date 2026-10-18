@@ -224,3 +224,11 @@ body {
   .toolbar-inner { flex-wrap: wrap; }
   .toolbar input[type="search"] { flex-basis: 100%; }
 }
+
+/* Wide desktop: widen the container on large monitors (approved 2026-10-18).
+ * Only viewports >= 1500px: container 1180px -> 1400px; the 3-column grid
+ * stays, cards grow ~370px -> ~450px. Mobile/tablet untouched. Reversible:
+ * delete this block to revert. */
+@media (min-width: 1500px) {
+  :root { --maxw: 1400px; }
+}
