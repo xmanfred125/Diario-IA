@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://vexatimes.com/index.html</loc><lastmod>2026-10-17</lastmod></url>
-  <url><loc>https://vexatimes.com/ediciones/index.html</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://vexatimes.com/index.html</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://vexatimes.com/ediciones/index.html</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://vexatimes.com/privacy-policy.html</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://vexatimes.com/terms.html</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://vexatimes.com/contact.html</loc><lastmod>2026-10-07</lastmod></url>
@@ -21,4 +21,5 @@
   <url><loc>https://vexatimes.com/ediciones/2026-10-15.html</loc><lastmod>2026-10-15</lastmod></url>
   <url><loc>https://vexatimes.com/ediciones/2026-10-16.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://vexatimes.com/ediciones/2026-10-17.html</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://vexatimes.com/ediciones/2026-10-18.html</loc><lastmod>2026-10-18</lastmod></url>
 </urlset>
