@@ -232,3 +232,23 @@ body {
 @media (min-width: 1500px) {
   :root { --maxw: 1400px; }
 }
+/* AdSense Auto Ads containment (added 2026-10-20).
+ * Auto-placed ads must never widen the page, break the stories grid or
+ * squeeze a card: they render inside the layout, full-row between cards.
+ * Reversible: delete this block to revert. */
+html, body { overflow-x: clip; }
+.google-auto-placed {
+  max-width: 100% !important;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+}
+ins.adsbygoogle, ins.adsbygoogle iframe { max-width: 100% !important; }
+.stories > .google-auto-placed {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: 100%;
+}
+.card-top { flex-wrap: wrap; }
+.card-top > .google-auto-placed { flex: 1 1 100%; min-width: 0; }
+.article-body .google-auto-placed { clear: both; }
