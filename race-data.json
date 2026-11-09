@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-05",
+  "updated": "2026-11-09",
   "sources": [
     {
       "name": "LMArena",
@@ -381,91 +381,91 @@
       {
         "model": "GPT-6.1 Terra (Max)",
         "creator": "OpenAI",
-        "score": 107.0,
+        "score": 107.5,
         "quality": 51.3
-      },
-      {
-        "model": "Gemini 4 Carbon (Medium)",
-        "creator": "Google",
-        "score": 91.5,
-        "quality": 58.3
       },
       {
         "model": "Gemini 4 Carbon (High)",
         "creator": "Google",
-        "score": 88.4,
+        "score": 105.2,
         "quality": 60
-      },
-      {
-        "model": "Gemini 4 Argon (High)",
-        "creator": "Google",
-        "score": 86.7,
-        "quality": 50.4
       },
       {
         "model": "GPT-6.1 Terra (Xhigh)",
         "creator": "OpenAI",
-        "score": 86.5,
+        "score": 95.7,
         "quality": 45.3
+      },
+      {
+        "model": "Gemini 4 Carbon (Medium)",
+        "creator": "Google",
+        "score": 94.0,
+        "quality": 58.3
+      },
+      {
+        "model": "Gemini 4 Argon (High)",
+        "creator": "Google",
+        "score": 91.0,
+        "quality": 50.4
       },
       {
         "model": "Gemini 4 Carbon (Low)",
         "creator": "Google",
-        "score": 86.4,
+        "score": 88.1,
         "quality": 54.2
       },
       {
         "model": "GPT-6.1 Sol (Max)",
         "creator": "OpenAI",
-        "score": 60.4,
+        "score": 84.3,
         "quality": 54.6
       },
       {
         "model": "GPT-6.1 Sol (Xhigh)",
         "creator": "OpenAI",
-        "score": 53.6,
+        "score": 75.2,
         "quality": 52.5
       },
       {
         "model": "GPT-6.1 Sol (High)",
         "creator": "OpenAI",
-        "score": 49.4,
+        "score": 68.7,
         "quality": 50.3
-      },
-      {
-        "model": "GPT-6 Astra (Max)",
-        "creator": "OpenAI",
-        "score": 47.0,
-        "quality": 56.9
       },
       {
         "model": "GPT-6.1 Sol (Medium)",
         "creator": "OpenAI",
-        "score": 46.2,
+        "score": 61.6,
         "quality": 46.3
       },
       {
         "model": "GPT-6 Astra (Xhigh)",
         "creator": "OpenAI",
-        "score": 46.0,
+        "score": 55.9,
         "quality": 55.3
+      },
+      {
+        "model": "GPT-6 Astra (Max)",
+        "creator": "OpenAI",
+        "score": 53.0,
+        "quality": 56.9
       },
       {
         "model": "GPT-6 Astra (High)",
         "creator": "OpenAI",
-        "score": 43.1,
+        "score": 50.0,
         "quality": 54.8
       },
       {
         "model": "GPT-6 Astra (Medium)",
         "creator": "OpenAI",
-        "score": 36.5,
+        "score": 43.1,
         "quality": 51.6
       },
       {
         "model": "Kimi K3.1 Pro",
         "creator": "Kimi",
-        "score": 27.5,
+        "score": 28.8,
         "quality": 46.5
       }
     ],
