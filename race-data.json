@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-19",
+  "updated": "2026-11-23",
   "sources": [
     {
       "name": "LMArena",
@@ -329,12 +329,6 @@
         "quality": 50.3
       },
       {
-        "model": "Gemini 4 Argon (Medium)",
-        "creator": "Google",
-        "score": 4.0,
-        "quality": 47.6
-      },
-      {
         "model": "Kimi K3.1 Pro",
         "creator": "Kimi",
         "score": 4.0,
@@ -371,102 +365,108 @@
         "quality": 54.9
       },
       {
-        "model": "Gemini 4 Argon (High)",
+        "model": "Gemini 4 Neon (Medium)",
         "creator": "Google",
-        "score": 4.0,
-        "quality": 50.4
+        "score": 6.0,
+        "quality": 54.9
+      },
+      {
+        "model": "Gemini 4 Neon (Xhigh)",
+        "creator": "Google",
+        "score": 6.0,
+        "quality": 61.4
       }
     ],
     "aa_speed": [
       {
         "model": "Gemini 4 Hydrogen (Xhigh)",
         "creator": "Google",
-        "score": 215.4,
+        "score": 234.5,
         "quality": 53.9
       },
       {
         "model": "Gemini 4 Hydrogen (High)",
         "creator": "Google",
-        "score": 204.8,
+        "score": 225.3,
         "quality": 50.8
       },
       {
         "model": "Gemini 4 Neon (Medium)",
         "creator": "Google",
-        "score": 151.6,
+        "score": 117.5,
         "quality": 54.9
       },
       {
         "model": "Gemini 4 Neon (Xhigh)",
         "creator": "Google",
-        "score": 136.4,
+        "score": 116.4,
         "quality": 61.4
       },
       {
         "model": "Gemini 4 Neon (High)",
         "creator": "Google",
-        "score": 118.8,
+        "score": 114.5,
         "quality": 59.6
-      },
-      {
-        "model": "GPT-6.2 Sol (Xhigh)",
-        "creator": "OpenAI",
-        "score": 97.1,
-        "quality": 55.7
-      },
-      {
-        "model": "GPT-6.2 Sol (High)",
-        "creator": "OpenAI",
-        "score": 95.0,
-        "quality": 54.9
-      },
-      {
-        "model": "GPT-6.2 Sol (Max)",
-        "creator": "OpenAI",
-        "score": 94.5,
-        "quality": 57.3
-      },
-      {
-        "model": "GPT-6.2 Sol (Medium)",
-        "creator": "OpenAI",
-        "score": 88.8,
-        "quality": 52.7
       },
       {
         "model": "Gemini 4 Argon (High)",
         "creator": "Google",
-        "score": 87,
+        "score": 110.8,
         "quality": 50.4
-      },
-      {
-        "model": "Gemini 4 Carbon (High)",
-        "creator": "Google",
-        "score": 84.5,
-        "quality": 60
       },
       {
         "model": "Gemini 4 Argon (Medium)",
         "creator": "Google",
-        "score": 83.4,
+        "score": 109.0,
         "quality": 47.6
       },
       {
         "model": "GPT-6.1 Terra (Max)",
         "creator": "OpenAI",
-        "score": 82.9,
+        "score": 105.6,
         "quality": 51.3
       },
       {
         "model": "Gemini 4 Carbon (Medium)",
         "creator": "Google",
-        "score": 78.2,
+        "score": 91.6,
         "quality": 58.3
+      },
+      {
+        "model": "GPT-6.1 Sol (Max)",
+        "creator": "OpenAI",
+        "score": 90.9,
+        "quality": 54.6
+      },
+      {
+        "model": "GPT-6.1 Terra (Xhigh)",
+        "creator": "OpenAI",
+        "score": 88.2,
+        "quality": 45.3
+      },
+      {
+        "model": "Gemini 4 Carbon (High)",
+        "creator": "Google",
+        "score": 87.9,
+        "quality": 60
       },
       {
         "model": "Gemini 4 Carbon (Low)",
         "creator": "Google",
-        "score": 75.4,
+        "score": 86.5,
         "quality": 54.2
+      },
+      {
+        "model": "GPT-6.2 Sol (Max)",
+        "creator": "OpenAI",
+        "score": 86.0,
+        "quality": 57.3
+      },
+      {
+        "model": "GPT-6.2 Sol (Xhigh)",
+        "creator": "OpenAI",
+        "score": 79.5,
+        "quality": 55.7
       }
     ],
     "reliability": [
